@@ -1,0 +1,104 @@
+@echo off
+title Serwis
+
+:: Wylaczenie wyswietlania polecen
+@echo off
+
+cls
+set /p imie_nazwisko=Imie i nazwisko serwisanta: 
+cls
+
+:menu
+echo Witam serwisanta %imie_nazwisko%!
+echo 1 - testowanie sieci
+echo 2 - data i czas
+echo 3 - aktywacja konta administrator
+echo 4 - wyswietlenie zawartosci pliku
+echo 5 - wyszukiwanie pliku
+echo 6 - konwersja systemu plikow
+echo 7 - notatnik
+echo 8 - koniec
+
+set /p opcja=Wybierz opcje:
+
+if %opcja%==1 goto testowanie_sieci
+if %opcja%==2 goto data_i_czas
+if %opcja%==3 goto aktywacja_konta
+if %opcja%==4 goto wyswietlenie_zawartosci_pliku
+if %opcja%==5 goto wyszukiwanie_pliku
+if %opcja%==6 goto konwersja_systemu_plikow
+if %opcja%==7 goto notatnik
+if %opcja%==8 goto koniec
+
+echo Blad: Nieprawidlowa opcja.
+pause
+cls
+goto menu
+
+:testowanie_sieci
+cls
+echo Testowanie sieci...
+for /L %%i in (2, 2, 10) do (
+    ping -n 1 192.168.1.%%i
+)
+pause
+cls
+goto menu
+
+:data_i_czas
+cls
+echo Dzisiaj jest %date% %time%
+pause
+cls
+goto menu
+
+:aktywacja_konta
+cls
+echo Aktywacja konta Administrator...
+net user Administrator /active:yes
+pause
+cls
+goto menu
+
+:wyswietlenie_zawartosci_pliku
+cls
+set /p nazwa_pliku=Podaj nazwe pliku: 
+type %nazwa_pliku%
+
+pause
+cls
+goto menu
+
+:wyszukiwanie_pliku
+cls
+set /p nazwa_pliku=Podaj nazwe pliku do wyszukania: 
+if exist %nazwa_pliku% (
+    echo Plik istnieje.
+) else (
+    echo Plik nie istnieje.
+)
+pause
+cls
+goto menu
+
+:konwersja_systemu_plikow
+cls
+set /p nazwa_dysku=Podaj nazwe dysku do konwersji (np. C:): 
+convert %nazwa_dysku% /fs:ntfs
+pause
+cls
+goto menu
+
+:notatnik
+cls
+set /p notatka=Podaj notatke: 
+echo %notatka% > note.txt
+echo Notatka zostala zapisana w pliku note.txt.
+pause
+cls
+goto menu
+
+:koniec
+echo Koniec skryptu.
+pause
+exit /b 0
